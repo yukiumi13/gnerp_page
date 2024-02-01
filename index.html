@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html><head lang="en"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>GNeRP</title>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta property="og:image" content="https://g3956.github.io/img/cat.jpg">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://g3956.github.io">
+    <meta property="og:title" content="GNeRP: Gaussian-guided Neural Reconstruction of Reflective Objects with Noisy Polarization Priors">
+    <meta property="og:description" content="Learning surfaces from neural radiance field (NeRF) became a rising topic in Multi-View Stereo (MVS). Recent Signed Distance Function (SDF)-based methods demonstrated their ability to reconstruct accurate 3D shapes of Lambertian scenes. However, their results on reflective scenes are unsatisfactory due to the entanglement of specular radiance and complicated geometry. To address the challenges, we propose a Gaussian-based representation of normals in SDF fields. Supervised by polarization priors, this representation guides the learning of geometry behind the specular reflection and captures more details than existing methods. Moreover, we propose a reweighting strategy in the optimization process to alleviate the noise issue of polarization priors. To validate the effectiveness of our design, we capture polarimetric information, and ground truth meshes in additional reflective scenes with various geometry. We also evaluated our framework on the PANDORA dataset. Comparisons prove our method outperforms existing neural 3D reconstruction methods in reflective scenes by a large margin.">
+
+    <!-- mirror: F0%9F%AA%9E&lt -->
+    <link rel="icon" href="data:image/svg+xml,&lt;svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22&gt;&lt;text y=%22.9em%22 font-size=%2290%22&gt;%E2%9C%A8&lt;/text&gt;&lt;/svg&gt;">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/codemirror.min.css">
+    <link rel="stylesheet" href="css/app.css">
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/codemirror.min.js"></script>
+    <script src="js/clipboard.min.js"></script>
+    <script src="js/video_comparison.js"></script>
+    <script src="js/app.js"></script>
+</head>
+
+<body>
+    <div class="container" id="header" style="text-align: center; margin: auto;">
+        <div class="row" id="title-row" style="max-width: 100%; margin: 0 auto; display: inline-block">
+            <h2 class="col-md-12 text-center" id="title">
+                <b>GNeRP</b>: Gaussian-guided Neural Reconstruction of <br> Reflective Objects with Noisy Polarization Priors<br>
+		<small>
+                    ICLR 2024
+                </small>
+            </h2>
+	   
+        </div>
+        <div class="row" id="author-row" style="margin:0 auto;">
+            <div class="col-md-12 text-center" style="display: table; margin: 0 auto">
+                <table class="author-table" id="author-table">
+                    <tr>
+                        <td>
+                            <a style="text-decoration:none" href=https://yukiumi13.github.io/liyang.pdf>
+                              Yang Li<sup>1,2,3</sup>
+                            </a>
+                            <br><sup>1</sup>HKUST
+                        </td>
+                        <td>
+                            <a style="text-decoration:none" href="https://openreview.net/profile?id=~RUIZHENG_WU1">
+                              Ruizheng Wu<sup>3</sup>
+                            </a>
+                            <br><sup>2</sup>HKUST (GZ)
+                        </td>
+                        <td>
+                            <a style="text-decoration:none">
+                              Jiyong Li<sup>4</sup>
+                            </a>
+                            <br><sup>3</sup>SmartMore
+                        </td>
+                        <td>
+                            <a style="text-decoration:none" href="https://www.yingcong.me/">
+                              Ying-Cong Chen<sup>1,2</sup>
+                            </a>
+                            <br><sup>4</sup>SYSU
+                        </td>
+   
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('author-row').style.maxWidth = document.getElementById("title-row").clientWidth + 'px';
+    </script>
+    <div class="container" id="main">
+        <div class="row">
+                <div class="col-sm-6 col-sm-offset-3 text-center">
+                    <ul class="nav nav-pills nav-justified">
+                        <li>
+                            <a href="./gnerp_camerar_ready.pdf", target="_blank">
+                            <img src="./img/paper_img.png" height="60px">
+                                <h4><strong>Paper</strong></h4>
+                            </a>
+                        </li> 
+                        <li>
+                            <a href="https://github.com/yukiumi13/GNeRP" target="_blank">
+                            <image src="img/github.png" height="60px">
+                                <h4><strong>Code</strong></h4>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+        </div>
+    
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Abstract
+                </h3>
+                <p class="text-justify">
+                    Learning surfaces from neural radiance field (NeRF) became a rising topic in Multi-View Stereo (MVS). Recent Signed Distance Function (SDF)-based methods demonstrated their ability to reconstruct accurate 3D shapes of Lambertian scenes. However, their results on reflective scenes are unsatisfactory due to the entanglement of specular radiance and complicated geometry. To address the challenges, we propose a Gaussian-based representation of normals in SDF fields. Supervised by polarization priors, this representation guides the learning of geometry behind the specular reflection and captures more details than existing methods. Moreover, we propose a reweighting strategy in the optimization process to alleviate the noise issue of polarization priors. To validate the effectiveness of our design, we capture polarimetric information, and ground truth meshes in additional reflective scenes with various geometry. We also evaluated our framework on the PANDORA dataset. Comparisons prove our method outperforms existing neural 3D reconstruction methods in reflective scenes by a large margin.
+                </p>
+            </div>
+        </div>
+
+        <image src="img/pipeline.png" class="img-responsive" alt="overview" width="60%" style="max-height: 450px;margin:auto;">
+        <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <h3>
+                        Polarization and Surface Normals
+                    </h3>
+                    <image src="img/pol_shift .png" class="img-responsive" alt="overview" width="60%" style="max-height: 450px;margin:auto;"></image>
+                    <p class="text-justify">
+                        Polarimetry describes the vibration status of light waves. Since light is a type of transverse wave that only oscillates in the plane perpendicular to the light path. The full polarimetric cues of rays are always represented by planar ellipses. The magnitude of vectors inside these ellipses alludes to the amplitude of the light wave vibration along the vectors. During reflection, the vibration in each direction is absorbed unequally, and unpolarized incident light turns into partially polarized reflected light captured by polarization cameras. The shift of polarization status is functionally related to projected surface normals at the points of reflection. 
+                    </p>
+                </div>
+        </div>
+        <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <h3>
+                        Gaussian-based NeuRecon
+                    </h3>
+                    <table width="110%">
+                        <tr>
+                        <td align="left" valign="top" width="50%">
+                            <figure>
+                            <image src="img/gnerp.png" class="img-responsive" alt="gnerp" width="90%" style="max-height: 450px;margin:auto;"></image>
+                            <figcaption style="text-align: center;"><b>GNeRP</b> architecture</figcaption>
+                            </figure>
+                        </td>
+                        <td align="left" valign="top" width="50%">
+                            <figure>
+                                <image src="img/nerf.png" class="img-responsive" alt="neus" width="80%" style="max-height: 450px;margin:auto;"></image>
+                                <figcaption style="text-align: center;"><b>NeuS</b> architecture</figcaption>
+                            </figure>
+                        </td>
+                        </tr>
+                    </table>
+                    
+                    <p class="text-justify">
+                        Our key idea is to extend
+                        the geometry representation from scalar SDFs to Gaussian fields of normals supervised by polar
+                        ization priors. Given a surface point, the normals within its neighborhood are approximated by a
+                        3D Gaussian. Its mean shows the overall (low-frequency) orientation of the surface, while the covariance 
+                        captures high-frequency details. The representation can be splatted into the image 
+                        plane as 2D Gaussians. It skips the disentangled specular radiance.  Learning of the 2D Gaussians can be directly supervised by the polarization information about surface normals.
+                    </p>
+                </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Visual Results
+                </h3>
+
+                <table width="110%">
+                    <tr>
+                        <td align="left" valign="top" width="50%">
+                            <div class="video-compare-container" display:block>
+                                <video class="video" id="ironman_mesh" loop playsinline autoPlay muted src="video/ironman_demo.mp4" onplay="resizeAndPlay(this)"></video>
+                                <canvas height=0 class="videoMerge" id="ironman_meshMerge"></canvas>
+                            </div>
+                        </td>
+                        <td align="left" valign="top" width="50%">
+                            <div class="video-compare-container" display:block>
+                                <video class="video" id="toaster_normals" loop playsinline autoPlay muted src="video/dragon_demo.mp4" onplay="resizeAndPlay(this)"></video>
+                                <canvas height=0 class="videoMerge" id="toaster_normalsMerge"></canvas>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <table width="110%">
+                    <tr>
+                        <td align="left" valign="top" width="50%">
+                            <div class="video-compare-container" display:block>
+                                <video class="video" id="helmet_mesh" loop playsinline autoPlay muted src="video/ironman_normals_demo.mp4" onplay="resizeAndPlay(this)"></video>
+                                <canvas height=0 class="videoMerge" id="helmet_meshMerge"></canvas>
+                            </div>
+                        </td>
+                        <td align="left" valign="top" width="50%" display:block>
+                            <div class="video-compare-container">
+                                <video class="video" id="helmet_normals" loop playsinline autoPlay muted src="video/dragon_normals_demo.mp4" onplay="resizeAndPlay(this)"></video>
+                                <canvas height=0 class="videoMerge" id="helmet_normalsMerge"></canvas>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+			</div>
+        </div>
+
+
+        
+
+            
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Citation
+                </h3>
+                <div class="form-group col-md-10 col-md-offset-1">
+                    <textarea id="bibtex" class="form-control" readonly>
+@article{li24gnerp,
+    title={GNeRP: Gaussian-guided Neural Reconstruction of Reflective Objects with Noisy Polarization Priors},
+    author={Li, Yang and Wu, Ruizheng and Li, Jiyong and Chen, Ying-Cong},
+    journal={ICLR},
+    year={2024}
+}</textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Acknowledgements
+                </h3>
+                <p class="text-justify">
+                We would like to thank Dor Verbin and Kai Zhang for providing the dataset for evaluation and the results for comparison.
+                    <br>
+                The website template was borrowed from <a href="https://scholar.harvard.edu/dorverbin/home">Dor Verbin</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+</body></html>
