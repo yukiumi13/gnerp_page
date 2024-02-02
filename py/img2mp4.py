@@ -2,7 +2,7 @@ import cv2
 import os
 import re
 
-sceneName='dragon_nero_normal'
+sceneName='vase_neus'
 
 img_folder_path = f"/Users/menglidaren/iclr2024/assets/{sceneName}"
 
